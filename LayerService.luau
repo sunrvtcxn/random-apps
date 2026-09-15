@@ -237,7 +237,9 @@ end
 
 function LayerService:ChunkExists(id: string)
 	if Chunks[id] then
-		return true else return false
+		return true
+	else
+		return false
 	end
 end
 
