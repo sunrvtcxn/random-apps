@@ -154,7 +154,7 @@ end
 
 function LayerService:GetAvailableAdjacentCFrames(id: string)
 	local results = {}
-	--// Define targets early to not make an unreadable mess
+	--// Define targets early to not make an unreadable mess, not a problem since all predefined chunks are 128x128 in size anyway so generation types won't conflict
 	local targets = {
 		left = Chunks[id].CenterPart.CFrame * CFrame.new(0, 0, -chunk_size * 2),
 		front = Chunks[id].CenterPart.CFrame * CFrame.new(chunk_size * 2, 0, 0),
