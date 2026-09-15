@@ -129,7 +129,7 @@ function LayerService:CreateChunk(CenterCf: CFrame?)
 	for _,v in pairs(LayerInfo.Layers[LayerService.CurrentLayer].Enemies) do
 		if RNGSeed:NextInteger(1, 100) <= v.Chance then
 			local RandomPosition = Vector3.new(RNGSeed:NextInteger(-math.floor(pos.X), math.floor(pos.X)), 3, RNGSeed:NextInteger(-math.floor(pos.Z), math.floor(pos.Z)))
-			ReplicatedStorage.Events.Environment.SpawnEnemy:Fire(LayerInfo.Layers[LayerService.CurrentLayer].Enemies[RNGSeed:NextInteger(1, #LayerInfo.Layers[LayerService.CurrentLayer].Enemies)], RandomPosition)
+			ReplicatedStorage.Events.Environment.SpawnEnemy:Fire(LayerInfo.Layers[LayerService.CurrentLayer].Enemies[RNGSeed:NextInteger(1, #LayerInfo.Layers[LayerService.CurrentLayer].Enemies)].Model, RandomPosition)
 		end
 	end
 
