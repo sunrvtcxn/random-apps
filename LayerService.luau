@@ -88,6 +88,7 @@ function LayerService:CreateChunk(CenterCf: CFrame?)
 				--// If current layer is not supposed to be flat then change height with this cool perlin noise formula that makes sure the terrain renders the same way in the same spot
 				if not table.find(LayerFactors, 'Flat') then
 					--// GenerationSeed must be heavily scrambled so we don't hit the 256 limit on perlin noise because roblox is a shitty company
+                    --// Also gonna have to add CenterCf.X to x so it renders the same way if someone comes back to the same spot
 					height = math.noise((x + CenterCf.X)/resolution*frequency, (z + CenterCf.Z)/resolution*frequency, GenerationSeed % 100000 * 0.01258 * 0.01952) * amplification
 				end
 
@@ -243,7 +244,7 @@ function LayerService:GetChunkFromCFrame(Cf: CFrame)
 	local result = workspace:GetPartBoundsInBox(Cf, Vector3.new(0.01, 0.01, 0.01))
 
 	for _, v in pairs(Chunks) do
-		if table.find(result, v.CenterPart) then
+		if table.find(result, v.CenterPart) then --// If a chunk is in bounds then return that chunk
 			return v
 		end
 	end
@@ -257,7 +258,7 @@ function LayerService:GetChunkEnemies(id: string)
 	--// Get all models within own CenterPart which have the attribute 'Enemy' since they are hostile NPCs
 	for _, v in pairs(targets) do
 		if v:GetAttribute('Enemy') then
-			table.insert(results, v)
+			table.insert(results, v) --// Insert the model into results
 		end
 	end
 
@@ -265,13 +266,13 @@ function LayerService:GetChunkEnemies(id: string)
 end
 
 function LayerService:WipeChunkEnemies(id: string)
-	for _, v in pairs(LayerService:GetChunkEnemies(id)) do
+	for _, v in pairs(LayerService:GetChunkEnemies(id)) do --// For each enemy from this function delete it, can just destroy it directly since it already had a task to see if parent changes and the parent is nil
 		v:Destroy()
 	end
 end
 
 function LayerService:ChunkExists(id: string)
-	if Chunks[id] then
+	if Chunks[id] then --// if theres an entry of id in Chunks then return true, if not then return false
 		return true
 	else
 		return false
@@ -279,6 +280,7 @@ function LayerService:ChunkExists(id: string)
 end
 
 function LayerService:GetPlayerChunk(player: Player)
+    --// if there is an actual character of the player then return the chunk from cframe through use of other function, else return nil
 	if player.Character then
 		return LayerService:GetChunkFromCFrame(player.Character.HumanoidRootPart.CFrame)
 	else
